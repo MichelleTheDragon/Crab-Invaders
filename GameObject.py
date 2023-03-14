@@ -4,12 +4,13 @@ import inspect
 
 class GameObject(ABC):
     @abstractmethod
-    def __init__(self, sprite, posX, posY, hasCollider):
+    def __init__(self, sprite, posX, posY, hasCollider, scale):
         self.components = []
-        self.sprite_image, self.sprite = GameObject.buildSprite(sprite)
+        self.sprite_image, self.sprite = self.buildSprite(sprite)
         self.posX = posX
         self.posY = posY
         self.hasCollider = hasCollider
+        self.scale = scale
         self.color = (255, 255, 255)
 
     @abstractmethod
@@ -30,10 +31,10 @@ class GameObject(ABC):
         if debugMode == True and self.hasCollider == True:
             pygame.draw.circle(screen, self.color, (self.posX, self.posY), self.sprite.rect.x/2 - 5, 2)
 
-    def buildSprite(path):
+    def buildSprite(self, path):
         sprite_image = pygame.image.load(path)
         sprite = pygame.sprite.Sprite()
         sprite.rect = sprite_image.get_rect()
-        sprite.rect.x = sprite_image.get_width()
-        sprite.rect.y = sprite_image.get_height()
+        sprite.rect.x = sprite_image.get_width() * self.scale
+        sprite.rect.y = sprite_image.get_height() * self.scale
         return sprite_image, sprite

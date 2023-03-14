@@ -2,7 +2,7 @@ from GameObject import GameObject
 
 class Player(GameObject):
     def __init__(self, sprite, posX, posY):
-        super().__init__(sprite, posX, posY, True)
+        super().__init__(sprite, posX, posY, True, 1)
 
     def LoadContent(self):
         return super().LoadContent()
