@@ -1,4 +1,5 @@
 from GameObject import GameObject
+import pygame
 
 class Player(GameObject):
     def __init__(self, sprite, posX, posY):
@@ -8,6 +9,10 @@ class Player(GameObject):
         return super().LoadContent()
     
     def Update(self, deltaTime, debugMode):
+        if pygame.key.get_pressed()[pygame.K_LEFT]:
+            self.move(-deltaTime)
+        if pygame.key.get_pressed()[pygame.K_RIGHT]:
+            self.move(deltaTime)
         return super().Update(deltaTime, debugMode)
     
     def Draw(self, screen, debugMode):

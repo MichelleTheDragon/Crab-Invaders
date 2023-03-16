@@ -1,31 +1,30 @@
 import pygame
 from Player import Player
 from ImageAsset import ImageAsset
+from Scenes.Level1 import Level1
+from Scenes.MainMenu import MainMenu
 
 class GameWorld:
     def __init__(self):
         self.infoObject = pygame.display.Info()
         self.screen = pygame.display.set_mode((self.infoObject.current_w, self.infoObject.current_h), pygame.FULLSCREEN)
-        pygame.display.set_caption("Space Invaders")
-        #self.screen.fill((100,130,210))
-        self.myGameObjects = []
+        pygame.display.set_caption("Crab Invaders")
         self.myScenes = []
+        self.currentScene = 0
         self.clock = pygame.time.Clock()
         self.debugMode = False
 
     def LoadContent(self):
-        self.background = ImageAsset("Sprites/Background.jpg", self.infoObject.current_w / 2, self.infoObject.current_h / 2, 1)
-        self.myGameObjects.append(Player("Sprites/player.png", self.infoObject.current_w / 2, self.infoObject.current_h - 150))
-        self.myGameObjects.append(ImageAsset("Sprites/enemy_01.png", self.infoObject.current_w / 2, 150), 0.5)
-        pygame.mixer.music.load("Sounds/Menu.mp3")
+        self.myScenes.append(MainMenu(self))
+        self.myScenes.append(Level1(self))
         self.running = True
-        pygame.mixer.music.play(-1)
+        for myScene in self.myScenes:
+            myScene.LoadContent()
 
     def Update(self):
         deltaTime = self.clock.tick(60) / 1000.0
         
-        for myGameObject in self.myGameObjects:
-            myGameObject.Update(deltaTime, self.debugMode)
+        self.myScenes[self.currentScene].Update(deltaTime, self.debugMode)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -35,14 +34,10 @@ class GameWorld:
                     self.running = False
                 elif event.key == pygame.K_TAB:
                     self.debugMode = not self.debugMode
-        if pygame.key.get_pressed()[pygame.K_LEFT]:
-            self.myGameObjects[0].move(-deltaTime)
-        if pygame.key.get_pressed()[pygame.K_RIGHT]:
-            self.myGameObjects[0].move(deltaTime)
+                elif event.key == pygame.K_e:
+                    self.currentScene = 1
         return self.running
 
     def Draw(self):
-        self.background.Draw(self.screen, self.debugMode)
-        for myGameObject in self.myGameObjects:
-            myGameObject.Draw(self.screen, self.debugMode)
+        self.myScenes[self.currentScene].Draw(self.screen, self.debugMode)
         pygame.display.update()    

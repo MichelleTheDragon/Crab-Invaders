@@ -6,11 +6,11 @@ class GameObject(ABC):
     @abstractmethod
     def __init__(self, sprite, posX, posY, hasCollider, scale):
         self.components = []
+        self.scale = scale
         self.sprite_image, self.sprite = self.buildSprite(sprite)
         self.posX = posX
         self.posY = posY
         self.hasCollider = hasCollider
-        self.scale = scale
         self.color = (255, 255, 255)
 
     @abstractmethod
