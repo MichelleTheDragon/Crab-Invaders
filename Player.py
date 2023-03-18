@@ -1,22 +1,27 @@
 from GameObject import GameObject
 import pygame
+import GameWorld
+from Components.SpriteRenderer import SpriteRenderer
+from Components.Component import Component
 
-class Player(GameObject):
-    def __init__(self, sprite, posX, posY):
-        super().__init__(sprite, posX, posY, True, 1)
+class Player(Component):
+    def __init__(self, sprite, position):
+        self.gameObject = GameObject(position)
+        self.gameObject.AddComponent(SpriteRenderer(self.gameObject, sprite, 0.8))
+        self.gameObject.AddComponent(self)
 
     def LoadContent(self):
-        return super().LoadContent()
+        super().LoadContent()
     
-    def Update(self, deltaTime, debugMode):
+    def Update(self):
         if pygame.key.get_pressed()[pygame.K_LEFT]:
-            self.move(-deltaTime)
+            self.move(-1)
         if pygame.key.get_pressed()[pygame.K_RIGHT]:
-            self.move(deltaTime)
-        return super().Update(deltaTime, debugMode)
+            self.move(1)
+        super().Update()
     
-    def Draw(self, screen, debugMode):
-        return super().Draw(screen, debugMode)
+    def Draw(self):
+        super().Draw()
     
-    def move(self, deltaTime):
-        self.posX += deltaTime * 300
+    def move(self, direction):
+        self.gameObject.transform.Translate([direction * 3, 0])

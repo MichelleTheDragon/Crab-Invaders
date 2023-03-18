@@ -1,14 +1,17 @@
 from GameObject import GameObject
+from Components.SpriteRenderer import SpriteRenderer
 
-class ImageAsset(GameObject):
-    def __init__(self, sprite, posX, posY, scale):
-        super().__init__(sprite, posX, posY, False, scale)
+class ImageAsset:
+    def __init__(self, sprite, position, scale):
+        self.gameObject = GameObject(position)
+        self.gameObject.AddComponent(SpriteRenderer(self.gameObject, sprite, scale))
+        #super().__init__(sprite, posX, posY, False, scale)
 
     def LoadContent(self):
-        return super().LoadContent()
+        self.gameObject.LoadContent()
     
-    def Update(self, deltaTime, debugMode):
-        return super().Update(deltaTime, False)
+    def Update(self):
+        self.gameObject.Update()
     
-    def Draw(self, screen, debugMode):
-        return super().Draw(screen, False)
+    def Draw(self):
+        self.gameObject.Draw()
