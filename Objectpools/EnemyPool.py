@@ -10,15 +10,17 @@ class EnemyPool(Objectpool):
     def __init__(self):
         super().__init__()
 
-    def GetObject(self, enemyType):
+    def GetObject(self, enemyType, position):
         if len(self.inactiveGameObjects) == 0:
-            return self.CreateObject(enemyType)
+            return self.CreateObject(enemyType, position)
         self.newGameObject = self.inactiveGameObjects.pop()
+        self.newGameObject.transform.posX = position[0]
+        self.newGameObject.transform.posY = position[1]
         self.activeGameObjects.append(self.newGameObject)
         return self.newGameObject
     
     def CleanUp(gameObject):
         pass
     
-    def CreateObject(self, enemyType):
-        return EnemyFactory().Create(enemyType)
+    def CreateObject(self, enemyType, position):
+        return EnemyFactory().Create(enemyType, position)

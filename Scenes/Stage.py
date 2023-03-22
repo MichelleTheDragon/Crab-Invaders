@@ -13,11 +13,15 @@ class Stage(Scene):
           cls.instance = super(Stage, cls).__new__(cls)
         return cls.instance
     
+    stage_left = GameWorld.instance.screen.get_width() / 2 - 380
+    stage_right = GameWorld.instance.screen.get_width() / 2 + 380
+    
+
     def __init__(self):
         super().__init__()
         self.myLevels = []
         self.currentLevel = 0
-        self.health = 3
+        self.health = 2
         self.heartObject = None
         self.missingHeartObject = None
     
@@ -48,10 +52,12 @@ class Stage(Scene):
         super().LoadContent()
         self.myLevels.append(Level1())
         self.myLevels[0].LoadContent()
+        #testing = 0
         for unitInGrid in self.myLevels[0].unitsInGrid:
+            #testing += 1
             self.myGameObjects.append(unitInGrid)
-            unitInGrid.transform.posX = GameWorld.instance.screen.get_width() / 2
-            unitInGrid.transform.posY = 200
+            #unitInGrid.transform.posX = GameWorld.instance.screen.get_width() / 2 - 440 + 80 * testing
+            #unitInGrid.transform.posY = 70
 
     def Update(self):
         super().Update()

@@ -11,8 +11,9 @@ class Level1(Level):
         self.bgMusic = ""
         self.groupWidth = 7
         self.groupHeight = 5
+        self.rowType = [ENEMYTYPE.TOUGH, ENEMYTYPE.ADVANCED, ENEMYTYPE.ADVANCED, ENEMYTYPE.BASIC, ENEMYTYPE.BASIC]
         
     def LoadContent(self):
-        self.unitsInGrid.append(EnemyPool().GetObject(ENEMYTYPE.BASIC))
-        #for row in self.unitsInGrid:
-        #    self.SpawnRow(row)
+        for column in range(self.groupHeight):
+            for row in range(self.groupWidth):
+                self.unitsInGrid.append(EnemyPool().GetObject(self.rowType[column], (GameWorld.instance.screen.get_width() / 2 - 380 + row * 80, 50 + 70 * column)))

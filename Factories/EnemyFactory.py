@@ -19,16 +19,22 @@ class EnemyFactory(Factory):
     def __init__(self):
         self.spriteList = []
         self.spriteList.append("Sprites/enemy_01.png")
+        self.spriteList.append("Sprites/enemy_02.png")
+        self.spriteList.append("Sprites/enemy_03.png")
 
-    def Create(self, enemyType):
-        gameObject = GameObject((-500, -500))
+    def Create(self, enemyType, position):
+        gameObject = GameObject(position)
         gameObject.tag = "Enemy"
         gameObject.enemyTags.append("Player")
         gameObject.enemyTags.append("Barricade")
         match enemyType:
             case ENEMYTYPE.BASIC:
-                spriteRenderer = SpriteRenderer(self.spriteList[0], 0.8)
+                spriteRenderer = SpriteRenderer(self.spriteList[0], 0.5)
+            case ENEMYTYPE.ADVANCED:
+                spriteRenderer = SpriteRenderer(self.spriteList[1], 0.5)
+            case ENEMYTYPE.TOUGH:
+                spriteRenderer = SpriteRenderer(self.spriteList[2], 0.5)
         gameObject.AddComponent(spriteRenderer)
         gameObject.AddComponent(Collider(gameObject, spriteRenderer, 3, (0, 0)))
-        gameObject.AddComponent(Enemy())
+        gameObject.AddComponent(Enemy(enemyType))
         return gameObject

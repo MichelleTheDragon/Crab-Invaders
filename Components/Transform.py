@@ -8,5 +8,5 @@ class Transform:
         self.posY = position[1]
 
     def Translate(self, translation):
-        self.posX += translation[0] * GameWorld.instance.deltaTime * 100
-        self.posY += translation[1] * GameWorld.instance.deltaTime * 100
+        self.posX += float(translation[0] / 10)
+        self.posY += float(translation[1] / 10)

@@ -40,8 +40,8 @@ class GameWorld:
         self.myScenes[self.currentScene].Start()
 
     def Update(self):
-        self.deltaTime = self.clock.tick(100) / 1000.0
-        
+        self.deltaTime = self.clock.tick(1000)
+
         self.myScenes[self.currentScene].Update()
 
         for event in pygame.event.get():

@@ -20,4 +20,5 @@ class Player(Component):
         super().Draw()
     
     def move(self, direction):
-        self.gameObject.transform.Translate([direction * GameWorld.instance.deltaTime * 50, 0])
+        print(GameWorld.instance.deltaTime)
+        self.gameObject.transform.Translate([float(direction) * GameWorld.instance.deltaTime, 0])
