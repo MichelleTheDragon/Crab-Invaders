@@ -27,6 +27,7 @@ class Stage(Scene):
         self.health = 3
         self.heartObject = None
         self.missingHeartObject = None
+        self.myPlayer = None
     
     def LoadContent(self):
         background = GameObject((GameWorld.instance.screen.get_width() / 2, GameWorld.instance.screen.get_height() / 2))
@@ -45,14 +46,19 @@ class Stage(Scene):
         self.bgMusic = "Sounds/CrabRave.mp3"
         self.musicVolume = 0.05
 
+        self.crabDeathSound = pygame.mixer.Sound("Sounds/CrabDeath.mp3")
+        self.crabDeathSound.set_volume(1)
+        self.owwSound = pygame.mixer.Sound("Sounds/Oww.mp3")
+        self.owwSound.set_volume(0.3)
+
         super().LoadContent()
         self.myLevels.append(Level1())
         self.myLevels.append(Level2())
         self.myLevels.append(Level3())
-        self.myLevels[0].LoadContent()
-        for unitInGrid in self.myLevels[0].unitsInGrid:
+        self.myLevels[2].LoadContent(self)
+        for unitInGrid in self.myLevels[2].unitsInGrid:
             self.myGameObjects.append(unitInGrid)
-            unitInGrid.GetComponent(Animator).PlayAnimation("Idle")
+            unitInGrid.GetComponent(Animator).PlayAnimation("Idle", False)
 
     def Update(self):
         super().Update()
@@ -75,10 +81,20 @@ class Stage(Scene):
     def LoadPlayer(self):
         player = GameObject((GameWorld.instance.screen.get_width() / 2, GameWorld.instance.screen.get_height() - 100))
         player.tag = "Player"
-        playerSprite = pygame.image.load("Sprites/player.png")
-        spriteRenderer = SpriteRenderer(playerSprite, 0.8)
+        playerSprite = pygame.image.load("Sprites/CrabIcon.png")
+        spriteRenderer = SpriteRenderer(playerSprite, 0.2)
         player.AddComponent(spriteRenderer)
         player.AddComponent(Collider(player, spriteRenderer, 3, (-20, 0)))
-        player.AddComponent(Player(self))
+        self.myPlayer = Player(self)
+        player.AddComponent(self.myPlayer)
         return player
     
+    def CrabDeath(self, gameObject):
+        pygame.mixer.Sound.play(self.crabDeathSound)
+        self.myGameObjects.remove(gameObject)
+        
+    def PlayerHit(self):
+        pygame.mixer.Sound.play(self.owwSound)
+        self.health -= 1
+        if self.health == 0:
+            GameWorld.running = False

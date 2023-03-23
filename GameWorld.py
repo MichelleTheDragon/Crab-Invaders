@@ -48,21 +48,26 @@ class GameWorld:
         self.t.start()
         while self.running == True:
             for event in pygame.event.get():
-               if event.type == pygame.QUIT:
-                   self.running = False
-               elif event.type == pygame.WINDOWMAXIMIZED:
-                   self.ChangeScreenSize(self.infoObject.current_w , self.infoObject.current_h)
-               elif event.type == pygame.VIDEORESIZE:
-                   if self.last_width != event.w or self.last_height != event.h:
-                       self.last_width = event.w
-                       self.last_height = event.h
-                       self.height = event.w / 16 * 9
-                       self.ChangeScreenSize(event.w , self.height)
-               elif event.type == pygame.MOUSEBUTTONDOWN and self.currentScene == 0:
-                   self.myScenes[0].CheckClick()
-               elif event.type == pygame.KEYDOWN:
-                   if event.key == pygame.K_TAB:
-                       self.debugMode = not self.debugMode
+                if event.type == pygame.QUIT:
+                    self.running = False
+                elif event.type == pygame.WINDOWMAXIMIZED:
+                    self.ChangeScreenSize(self.infoObject.current_w , self.infoObject.current_h)
+                elif event.type == pygame.VIDEORESIZE:
+                    if self.last_width != event.w or self.last_height != event.h:
+                        self.last_width = event.w
+                        self.last_height = event.h
+                        self.height = event.w / 16 * 9
+                        self.ChangeScreenSize(event.w , self.height)
+                elif event.type == pygame.MOUSEBUTTONDOWN and self.currentScene == 0:
+                    self.myScenes[0].CheckClick()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_TAB:
+                        self.debugMode = not self.debugMode
+                    if event.key == pygame.K_SPACE and self.currentScene == 1:
+                        player = self.myScenes[1].myPlayer
+                        if player.cooldown == False:
+                            player.Shoot()
+
                 
             
 

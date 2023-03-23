@@ -1,7 +1,8 @@
 from Components.Component import Component
 from GameWorld import GameWorld
-#from Scenes.Stage import Stage
+import Scenes.Stage 
 import pygame
+import math
 
 class Collider(Component):
     def __init__(self, gameObject, spriteRenderer, mode, offset):
@@ -12,6 +13,7 @@ class Collider(Component):
         self.loaded = False
         self.color = (255, 255, 255)
         self.mode = mode
+        self.rect = self.GetRectangle(spriteRenderer, offset)
 
     def GetRectangle(self, spriteRenderer, offset):
         return [self.gameObject.transform.posX, self.gameObject.transform.posY, spriteRenderer.sprite.rect.x + offset[0], spriteRenderer.sprite.rect.y + offset[1]]
@@ -19,16 +21,22 @@ class Collider(Component):
     def ChangeSprite(self, offset):
         self.offset = offset
 
-    def Update(self):
-        pass
-        #point = pygame.mouse.get_pos()
-        #self.collider = pygame.Rect(self.gameObject.transform.posX - self.spriteRenderer.sprite.rect.x/2, self.gameObject.transform.posY - self.spriteRenderer.sprite.rect.y/2, self.spriteRenderer.sprite_image.get_rect().width, self.spriteRenderer.sprite_image.get_rect().height)
-        #collide = self.collider.colliderect(point)
-        #self.color = (255, 0, 0) if collide == True else (255, 255, 255)
-        
-        #for other in Stage.instance.myGameObjects:
-        #    for enemyTag in self.gameObject.enemyTags:
-        #        if other.tag == enemyTag and other.
+    def Update(self):        
+        for other in Scenes.Stage.Stage.instance.myGameObjects:
+            for enemyTag in self.gameObject.enemyTags:
+                if other.tag == enemyTag:
+                    calcDist = math.dist((self.gameObject.transform.posX, self.gameObject.transform.posY), (other.transform.posX, other.transform.posY))
+                    collisonDist = (other.GetComponent(Collider).rect[2] / 2 + self.rect[2] / 2)
+                    if calcDist < collisonDist:
+                        if other.tag == "Enemy":
+                            #other.GetComponent(Enemy).isAlive = False
+                            Scenes.Stage.Stage.instance.CrabDeath(other)
+                        elif other.tag == "Player":
+                            Scenes.Stage.Stage.instance.PlayerHit()
+                            #Scenes.Stage.Stage.instance.myGameObjects.remove(other)
+                        if self.gameObject.tag == "Projectile":
+                            self.gameObject.isAlive = False
+                            Scenes.Stage.Stage.instance.myGameObjects.remove(self.gameObject)
 
     def Draw(self):
         if GameWorld.instance.debugMode == True:

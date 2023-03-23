@@ -8,6 +8,7 @@ class Animator(Component):
         self.spriteRenderer = spriteRenderer
         self.animations = dict()
         self.currentAnimation = None
+        self.shouldReset = False
 
     def Update(self):
         self.timeElapsed += GameWorld.instance.deltaTime
@@ -16,6 +17,8 @@ class Animator(Component):
             if self.currentIndex > len(self.currentAnimation.sprites) - 1:
                 self.timeElapsed = 0
                 self.currentIndex = 0
+                if self.shouldReset == True:
+                    self.PlayAnimation("Idle", False)
             self.spriteRenderer.ChangeSprite(self.currentAnimation.sprites[self.currentIndex])
 
     def AddAnimation(self, animation):
@@ -23,12 +26,13 @@ class Animator(Component):
         if self.currentAnimation == None:
             self.currentAnimation = animation
 
-    def PlayAnimation(self, animationName):
+    def PlayAnimation(self, animationName, playOnce):
         if self.currentAnimation != None:
             if animationName != self.currentAnimation.name:
                 self.currentAnimation = self.animations[animationName]
                 self.timeElapsed = 0
                 self.currentIndex = 0
+                self.shouldReset = playOnce
 
 class Animation:
     def __init__(self, name, sprites, fps):
