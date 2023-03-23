@@ -7,6 +7,6 @@ class Transform:
         self.posX = position[0]
         self.posY = position[1]
 
-    def Translate(self, translation):
-        self.posX += float(translation[0] / 10)
-        self.posY += float(translation[1] / 10)
+    def Translate(self, translation, speed):
+        self.posX += float(translation[0] * GameWorld.instance.deltaTime * speed)
+        self.posY += float(translation[1] * GameWorld.instance.deltaTime * speed)

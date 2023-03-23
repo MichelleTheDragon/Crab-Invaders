@@ -6,7 +6,6 @@ class Component(ABC):
     def __init__(self):
         self.gameObject = None
         self.isEnabled = True
-        self.gameObject = None
 
     def Start(self):
         pass

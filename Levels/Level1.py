@@ -1,5 +1,4 @@
 from Levels.Level import Level
-from Enemies.BasicEnemy1 import BasicEnemy1
 from GameWorld import GameWorld
 from Objectpools.EnemyPool import EnemyPool
 from Factories.EnemyFactory import ENEMYTYPE
@@ -11,7 +10,7 @@ class Level1(Level):
         self.bgMusic = ""
         self.groupWidth = 7
         self.groupHeight = 5
-        self.rowType = [ENEMYTYPE.TOUGH, ENEMYTYPE.ADVANCED, ENEMYTYPE.ADVANCED, ENEMYTYPE.BASIC, ENEMYTYPE.BASIC]
+        self.rowType = [ENEMYTYPE.ADVANCED, ENEMYTYPE.ADVANCED, ENEMYTYPE.BASIC, ENEMYTYPE.BASIC, ENEMYTYPE.BASIC]
         
     def LoadContent(self):
         for column in range(self.groupHeight):

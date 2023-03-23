@@ -35,7 +35,8 @@ class MainMenu(Scene):
     
     def LoadContent(self):
         background = GameObject((GameWorld.instance.screen.get_width() / 2, GameWorld.instance.screen.get_height() / 2))
-        background.AddComponent(SpriteRenderer("Sprites/BeachArt.jpg", .7))
+        backgroundSprite = pygame.image.load("Sprites/BeachArt.png")
+        background.AddComponent(SpriteRenderer(backgroundSprite, .7))
         self.myGameObjects.append(background)
         self.bgMusic = "Sounds/Menu.mp3"
         self.musicVolume = 0.2
