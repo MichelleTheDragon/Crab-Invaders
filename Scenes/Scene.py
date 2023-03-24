@@ -12,10 +12,11 @@ class Scene(ABC):
 
     @abstractmethod
     def LoadContent(self):
-        pass
+        self.hasDied = False
 
     def Start(self):
         self.isEnabled = True
+        #If the scene contains a path to a music file, play it
         if(len(self.bgMusic) > 0):
             pygame.mixer.music.load(self.bgMusic)
             pygame.mixer.music.set_volume(self.musicVolume * GameWorld.instance.music_volume)
@@ -27,15 +28,17 @@ class Scene(ABC):
 
     @abstractmethod
     def Update(self):
-        if self.isEnabled == True:
+        if self.isEnabled == True and self.hasDied == False:
             for myGameObject in self.myGameObjects:
-                myGameObject.Update()
+                if myGameObject.isAlive == True:
+                    myGameObject.Update()
 
     @abstractmethod
     def Draw(self):
         if self.isEnabled == True:
             for myGameObject in self.myGameObjects:
-                myGameObject.Draw()
+                if myGameObject.isAlive == True:
+                    myGameObject.Draw()
 
     def ChangeMusic(self):
         if(len(self.bgMusic) > 0):

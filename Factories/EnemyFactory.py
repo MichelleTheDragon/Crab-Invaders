@@ -11,6 +11,8 @@ class ENEMYTYPE(Enum):
     BASIC = 1
     ADVANCED = 2
     TOUGH = 3
+    BOSS1 = 4
+    BOSS2 = 5
     
 class EnemyFactory(Factory):
     def __new__(cls):
@@ -51,6 +53,9 @@ class EnemyFactory(Factory):
         self.toughAttackAnimationSprites.append(pygame.image.load("Sprites/CrabTough_Attack3.png"))
         self.toughAttackAnimationSprites.append(pygame.image.load("Sprites/CrabTough_Attack4.png"))
 
+        self.boss1Sprite = pygame.image.load("Sprites/Boss1.png")
+        self.boss2Sprite = pygame.image.load("Sprites/Boss2.png")
+
     def Create(self, enemyType, position, stage):
         gameObject = GameObject(position)
         gameObject.tag = "Enemy"
@@ -87,6 +92,16 @@ class EnemyFactory(Factory):
                 animator.AddAnimation(Animation("Idle", self.toughIdleAnimationSprites, 4))
                 animator.AddAnimation(Animation("Attack", self.toughAttackAnimationSprites, 5))
                 gameObject.AddComponent(animator)
+            case ENEMYTYPE.BOSS1:
+                spriteRenderer = SpriteRenderer(self.boss1Sprite, .4)
+                spriteRenderer.offset = (0, 0)
+                gameObject.AddComponent(spriteRenderer)
+                animator = Animator(spriteRenderer)
+            case ENEMYTYPE.BOSS2:
+                spriteRenderer = SpriteRenderer(self.boss2Sprite, .4)
+                spriteRenderer.offset = (0, 0)
+                gameObject.AddComponent(spriteRenderer)
+                animator = Animator(spriteRenderer)
             case _:
                 spriteRenderer = SpriteRenderer(self.baseSprite, 1)
                 spriteRenderer.offset = (0, -45)

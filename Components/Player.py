@@ -25,8 +25,12 @@ class Player(Component):
 
         if pygame.key.get_pressed()[pygame.K_LEFT] and self.gameObject.transform.posX > self.stage.instance.stage_left:
             self.gameObject.transform.Translate([-1, 0], self.speed)
+            if self.gameObject.transform.posX < self.stage.instance.stage_left:
+                self.gameObject.transform.posX = self.stage.instance.stage_left
         if pygame.key.get_pressed()[pygame.K_RIGHT] and self.gameObject.transform.posX < self.stage.instance.stage_right:
             self.gameObject.transform.Translate([1 , 0], self.speed)
+            if self.gameObject.transform.posX > self.stage.instance.stage_right:
+                self.gameObject.transform.posX = self.stage.instance.stage_right
         super().Update()
         
     

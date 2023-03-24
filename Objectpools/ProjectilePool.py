@@ -2,7 +2,7 @@ from Objectpools.Objectpool import Objectpool
 from Factories.ProjectileFactory import ProjectileFactory
 from Components.Projectile import Projectile
 import pygame
-from random import randrange
+from random import randint
 
 class ProjectilePool(Objectpool):
     def __new__(cls):
@@ -19,7 +19,11 @@ class ProjectilePool(Objectpool):
             whoosh.set_volume(0.1)
 
     def GetObject(self, projectileType, position, faction, direction):
-        pygame.mixer.Sound.play(self.whooshSounds[randrange(len(self.whooshSounds)) - 1])
+        test = randint(0, 1)
+        try:
+            pygame.mixer.Sound.play(self.whooshSounds[test])
+        finally:
+            pass
         if len(self.inactiveGameObjects) == 0:
             return self.CreateObject(projectileType, position, faction, direction)
         newGameObject = self.inactiveGameObjects.pop()

@@ -30,13 +30,14 @@ class Collider(Component):
                     if calcDist < collisonDist:
                         if other.tag == "Enemy":
                             #other.GetComponent(Enemy).isAlive = False
-                            Scenes.Stage.Stage.instance.CrabDeath(other)
+                            Scenes.Stage.Stage.instance.CrabHit(other)
                         elif other.tag == "Player":
                             Scenes.Stage.Stage.instance.PlayerHit()
                             #Scenes.Stage.Stage.instance.myGameObjects.remove(other)
                         if self.gameObject.tag == "Projectile":
+                            if self.gameObject.isAlive == True and other.isAlive == True:
+                                Scenes.Stage.Stage.instance.myGameObjects.remove(self.gameObject)
                             self.gameObject.isAlive = False
-                            Scenes.Stage.Stage.instance.myGameObjects.remove(self.gameObject)
 
     def Draw(self):
         if GameWorld.instance.debugMode == True:

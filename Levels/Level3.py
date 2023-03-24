@@ -13,6 +13,7 @@ class Level3(Level):
         self.rowType = [ENEMYTYPE.TOUGH, ENEMYTYPE.TOUGH, ENEMYTYPE.ADVANCED, ENEMYTYPE.ADVANCED, ENEMYTYPE.ADVANCED]
         
     def LoadContent(self, stage):
+        print("Level3")
         for column in range(self.groupHeight):
             for row in range(self.groupWidth):
                 self.unitsInGrid.append(EnemyPool().GetObject(self.rowType[column], (GameWorld.instance.screen.get_width() / 2 - 380 + row * 80, 50 + 70 * column), stage))

@@ -33,3 +33,4 @@ class Projectile(Component):
             self.gameObject.transform.Translate(self.direction, self.speed)
             if self.gameObject.transform.posY < -100 or self.gameObject.transform.posY > GameWorld.instance.screen.get_height() + 100:
                 Scenes.Stage.Stage.instance.myGameObjects.remove(self.gameObject)
+                self.gameObject.isAlive = False
